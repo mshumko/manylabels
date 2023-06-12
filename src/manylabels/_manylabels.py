@@ -89,7 +89,7 @@ class ManyLabels:
         if self.adjust_bottom is None:
             self.adjust_bottom = (1+len(cols))*0.04
         if self.label_coord is None:
-            self.label_coord = (-0.1, -0.01*(1+len(cols)))
+            self.label_coord = (-0.1, -0.00*(1+len(cols)))
 
         self.label()
         return

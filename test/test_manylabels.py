@@ -1,9 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 import matplotlib.testing.decorators
 
 import manylabels
+
 
 @matplotlib.testing.decorators.image_comparison(
     baseline_images=['test_manylabels_valid_data'], tol=10, extensions=['png']
@@ -11,7 +13,7 @@ import manylabels
 def test_manylabels_valid_data(): 
     n = 100
     x = np.array([pd.Timestamp(2000,1,1,5,0,0) + pd.Timedelta(minutes=i) for i in range(n)])
-    y = np.random.rand(n)
+    y = np.sin(2*np.pi*np.arange(n)/n)
     
     data = pd.DataFrame(
         index=x,
@@ -24,5 +26,6 @@ def test_manylabels_valid_data():
     
     fig, ax = plt.subplots()
     ax.plot(x, y)
+    ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(8))
     manylabels.ManyLabels(ax, data)
     return
