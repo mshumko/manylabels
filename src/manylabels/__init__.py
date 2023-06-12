@@ -1,1 +1,1 @@
-from manylabels import ManyLabels
+from ._manylabels import ManyLabels
