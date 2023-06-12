@@ -1,0 +1,1 @@
+from manylabels import ManyLabels
