@@ -27,8 +27,5 @@ def test_manylabels_valid_data():
     fig, ax = plt.subplots()
     ax.plot(x, y)
     ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(8))
-    # manylabels.ManyLabels(ax, data)
-    import matplotlib.dates as mdates
-    myFmt = mdates.DateFormatter('%H:%M:%S')
-    ax.xaxis.set_major_formatter(myFmt)
+    manylabels.ManyLabels(ax, data)
     return
