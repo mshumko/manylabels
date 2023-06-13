@@ -1,3 +1,5 @@
+![manylabels collage](/docs/_static/manylabels_collage.png.png "manylabels collage")
+
 # manylabels
 
 Many plots in the heliophysics science community are of satellites showing various physical 
