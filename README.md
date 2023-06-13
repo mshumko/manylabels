@@ -1,4 +1,4 @@
-![manylabels collage](./docs/_static/manylabels_collage.png)
+![manylabels collage](https://github.com/mshumko/manylabels/blob/main/docs/_static/manylabels_collage.png?raw=true)
 
 # manylabels
 
