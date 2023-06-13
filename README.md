@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import manylabels
+
 n = 100
 x = np.array([pd.Timestamp(2000,1,1,5,0,0) + pd.Timedelta(minutes=i) for i in range(n)])
 y = np.random.rand(n)
@@ -33,6 +34,6 @@ data = pd.DataFrame(
 
 fig, ax = plt.subplots()
 ax.plot(x, y)
-ManyLabels(ax, data)
+manylabels.ManyLabels(ax, data)
 plt.show()
 ```
