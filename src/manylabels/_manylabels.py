@@ -27,8 +27,11 @@ class ManyLabels:
         ax: plt.Axes
             The subplot to add labels to.
         data: pd.DataFrame
-            The x-axis label data to plot. The DataFrame index must be time.
-            The columns will correspond to the x-axis labels.
+            The x-axis label data to plot. The DataFrame index must be ``pd.Timetamp`` objects.
+            The columns names and values will correspond to the x-axis labels and values. If
+            matplotlib attempts to plot a tick outside of the ``data`` time range, only the time
+            tick will be plotted. See ``fill_missing`` and ``gap_thresh`` to tune when ManyLabels
+            does not plot x-axis ticks beyond the time.  
         round: bool
             Round data to nearest tenths to reduce plot clutter.
         fill_missing:str
@@ -38,8 +41,12 @@ class ManyLabels:
             fill_missing. If None, it will calculate gap_thresh using the median data time
             separation.
         adjust_bottom: float
-
+            Adjust the spacing between the x-axis and the bottom of the figure. The 
+            default ``adjust_bottom = 0.04*(1+len(data.columns))`` works for many cases, 
         label_coord: tuple
+            Adjust the x and y location of the x-axis text labels. The default
+            ``label_coord = (-0.1, -0.01*(1+len(data.columns))`` works for many cases,
+            but you may need to adjust it.
 
         Example
         -------
@@ -63,7 +70,7 @@ class ManyLabels:
         >>> 
         >>> fig, ax = plt.subplots()
         >>> ax.plot(x, y)
-        >>> ManyLabels(ax, data)
+        >>> manylabels.ManyLabels(ax, data)
         >>> plt.show()
         """
         self.ax = ax
@@ -87,9 +94,9 @@ class ManyLabels:
 
         cols = list(self.data.columns)
         if self.adjust_bottom is None:
-            self.adjust_bottom = (1+len(cols))*0.04
+            self.adjust_bottom = 0.04*(1+len(cols))
         if self.label_coord is None:
-            self.label_coord = (-0.1, -0.00*(1+len(cols)))
+            self.label_coord = (-0.1, -0.01*(1+len(cols)))
 
         self.label()
         return
