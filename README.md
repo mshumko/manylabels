@@ -1,4 +1,4 @@
-![manylabels collage](/docs/_static/manylabels_collage.png.png "manylabels collage")
+![manylabels collage](./docs/_static/manylabels_collage.png)
 
 # manylabels
 
