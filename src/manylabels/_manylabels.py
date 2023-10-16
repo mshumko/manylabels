@@ -16,8 +16,8 @@ import numpy as np
 class ManyLabels:
     def __init__(
             self, ax:plt.Axes, data:pd.DataFrame, round:bool=True, 
-            fill_missing:str='', gap_thresh:float=None, adjust_bottom:float=None,
-            label_coord:tuple=None
+            fill_missing:str='', fill_nan:str='', gap_thresh:float=None, 
+            adjust_bottom:float=None, label_coord:tuple=None
             ) -> None:
         """
         Plot multiple x-axis labels on a subplot.
@@ -36,6 +36,8 @@ class ManyLabels:
             Round data to nearest tenths to reduce plot clutter.
         fill_missing:str
             Character to fill a tick label if data is not within gap_thresh.
+        fill_nan:str
+            Replace np.nan values with the fill_nan value. If None, nan will not be replaced.
         gap_thresh: float
             The maximum time gap, in seconds, before the x-axis label is marked with
             fill_missing. If None, it will calculate gap_thresh using the median data time
@@ -77,6 +79,7 @@ class ManyLabels:
         self.data=data
         self.round=round
         self.fill_missing=fill_missing
+        self.fill_nan = fill_nan
         self.gap_thresh=gap_thresh
         self.adjust_bottom = adjust_bottom
         self.label_coord = label_coord
@@ -126,6 +129,8 @@ class ManyLabels:
             return tick_time.strftime("%H:%M:%S")
 
         ticks = '\n'.join(self.data.iloc[i_min_time, :].astype(str))
+        if self.fill_nan is not None:
+            ticks = ticks.replace('nan', self.fill_nan)
         ticks = self.data.index[i_min_time].strftime("%H:%M:%S") + '\n' + ticks
         return ticks
     
