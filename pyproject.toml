@@ -1,5 +1,7 @@
 [build-system]
-requires = ["setuptools", "wheel", "matplotlib", "numpy", "pandas", "pytest", "pytest-cov"]
+requires = [
+    "setuptools", "wheel", "matplotlib", "numpy", "pandas", "pytest", "pytest-cov"
+    ]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
