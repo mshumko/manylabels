@@ -17,7 +17,8 @@ class ManyLabels:
     def __init__(
             self, ax:plt.Axes, data:pd.DataFrame, round:bool=True, 
             fill_missing:str='', fill_nan:str='', gap_thresh:float=None, 
-            adjust_bottom:float=None, label_coord:tuple=None
+            adjust_bottom:float=None, xlabel:bool=True, label_coord:tuple=None,
+            time_format="%H:%M:%S"
             ) -> None:
         """
         Plot multiple x-axis labels on a subplot.
@@ -44,11 +45,16 @@ class ManyLabels:
             separation.
         adjust_bottom: float
             Adjust the spacing between the x-axis and the bottom of the figure. The 
-            default ``adjust_bottom = 0.04*(1+len(data.columns))`` works for many cases, 
+            default ``adjust_bottom = 0.04*(1+len(data.columns))`` works for many cases.
+        xlabel: bool
+            Whether or not to add the x-axis label.
         label_coord: tuple
             Adjust the x and y location of the x-axis text labels. The default
             ``label_coord = (-0.1, -0.01*(1+len(data.columns))`` works for many cases,
             but you may need to adjust it.
+        time_format: str
+            The `datetime.strftime() <https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior>`__
+            formatting string for the time axis.
 
         Example
         -------
@@ -82,7 +88,9 @@ class ManyLabels:
         self.fill_nan = fill_nan
         self.gap_thresh=gap_thresh
         self.adjust_bottom = adjust_bottom
+        self.xlabel = xlabel
         self.label_coord = label_coord
+        self.time_format = time_format
 
         if self.gap_thresh is None:
             dt = np.array([
@@ -108,8 +116,9 @@ class ManyLabels:
         cols = list(self.data.columns)
         self.ax.xaxis.set_major_formatter(
             matplotlib.ticker.FuncFormatter(self._format_xaxis))
-        self.ax.set_xlabel("\n".join(["Time"] + cols))
-        self.ax.xaxis.set_label_coords(*self.label_coord)
+        if self.xlabel:
+            self.ax.set_xlabel("\n".join(["Time"] + cols))
+            self.ax.xaxis.set_label_coords(*self.label_coord)
         self.ax.format_coord = lambda x, y: "{}, {}".format(
             matplotlib.dates.num2date(x).replace(tzinfo=None).isoformat(), round(y)
         )
@@ -126,12 +135,12 @@ class ManyLabels:
         i_min_time = np.argmin(np.abs(self.data.index - tick_time))
 
         if np.abs(self.data.index[i_min_time] - tick_time).total_seconds() > self.gap_thresh:
-            return tick_time.strftime("%H:%M:%S")
+            return tick_time.strftime(self.time_format)
 
         ticks = '\n'.join(self.data.iloc[i_min_time, :].astype(str))
         if self.fill_nan is not None:
             ticks = ticks.replace('nan', self.fill_nan)
-        ticks = self.data.index[i_min_time].strftime("%H:%M:%S") + '\n' + ticks
+        ticks = self.data.index[i_min_time].strftime(self.time_format) + '\n' + ticks
         return ticks
     
 
