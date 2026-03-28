@@ -1,3 +1,23 @@
+[project]
+name = "manylabels"
+version = "0.1.0"
+description = "Automatically add multiple x-axis labels to your matplotlib subplots."
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [ { name = "Mykhaylo Shumko", email = "msshumko@gmail.com" } ]
+license = "BSD-3-Clause"
+classifiers = [
+    "Programming Language :: Python :: 3",  
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    ]
+requires-python = ">=3.11"
+urls = { Homepage = "https://github.com/mshumko/manylabels" }
+dependencies = [
+    "matplotlib", "numpy", "pandas"
+    ]
+
 [build-system]
 requires = [
     "setuptools", "wheel", "matplotlib", "numpy", "pandas", "pytest", "pytest-cov"
@@ -7,3 +27,43 @@ build-backend = "setuptools.build_meta"
 [tool.black]
 line-length = 120
 target-version = ['py39', 'py310']
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["test*"]
+
+[tool.mypy]
+python_version = 3.10
+warn_unused_configs = true
+show_error_context = true
+pretty = true
+namespace_packages = true
+check_untyped_defs = true
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+addopts = "--cov --strict-markers"
+xfail_strict = true
+
+[tool.coverage.run]
+source = ["manylabels"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 75
+show_missing = true
+skip_covered = true
+
+[tool.coverage.paths]
+source = ["src/manylabels", "*/site-packages/manylabels"]
+
+[tool.tox]
+envlist = ["py39", "py310"]
+isolated_build = true
